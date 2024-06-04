@@ -1,7 +1,27 @@
-﻿namespace States
+﻿using UnityEngine;
+
+namespace States
 {
-    public class FightingState : State
+    public class FightingState : MovementState
     {
-        private const float StateDuration = 3.5f;
+        private float _exitTime = 3.5f;
+
+        protected override void OnEnter()
+        {
+            base.OnEnter();
+            
+            _characterAnimator.UpdateState(CharacterAnimatorParams.IsFighting, true);
+        }
+
+        protected override void OnUpdate()
+        {
+            UpdateCharacterAnimation();
+            
+            if(_updateTime < _exitTime)
+                return;
+            
+            _characterAnimator.UpdateState(CharacterAnimatorParams.IsFighting, false);
+            _stateMachine.SetDefaultState();
+        }
     }
 }

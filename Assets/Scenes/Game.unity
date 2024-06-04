@@ -2896,6 +2896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2cd5051b0b40f69623b94706b790bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  comboSettings: {fileID: 11400000, guid: 09cde22dc4f08cf4b9123e9387027abc, type: 2}
   characterStateMachine: {fileID: 5866666021682038949}
   characterInput: {fileID: 1859455466}
   characterController: {fileID: 1871755189}

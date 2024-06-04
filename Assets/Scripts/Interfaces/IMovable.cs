@@ -8,5 +8,6 @@ namespace Interfaces
         
         public void Move(Vector2 vector, float lerp);
         public void Rotate(Quaternion quaternion);
+        public void ForceStop();
     }
 }

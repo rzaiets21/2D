@@ -7,7 +7,7 @@ namespace States
     {
         private ICharacterControl _characterControl;
         private IMovable _movable;
-        private CharacterAnimator _characterAnimator;
+        protected CharacterAnimator _characterAnimator;
 
         private Vector2 _lastMovementVector;
         
@@ -22,15 +22,21 @@ namespace States
 
         protected override void OnUpdate()
         {
-            var normalizedSpeed = _movable.GetNormalizedSpeed();
-            _characterAnimator.UpdateState(CharacterAnimatorParams.HorizontalSpeed, normalizedSpeed);
+            UpdateCharacterAnimation();
             
+            var normalizedSpeed = _movable.GetNormalizedSpeed();
             if(normalizedSpeed != 0 || _characterControl.MovementVector.sqrMagnitude != 0)
                 return;
             
             _stateMachine.SetDefaultState();
         }
 
+        protected void UpdateCharacterAnimation()
+        {
+            var normalizedSpeed = _movable.GetNormalizedSpeed();
+            _characterAnimator.UpdateState(CharacterAnimatorParams.HorizontalSpeed, normalizedSpeed);
+        }
+        
         protected override void OnFixedUpdate()
         {
             var movementVector = _characterControl.MovementVector;
@@ -48,6 +54,12 @@ namespace States
             }
             
             _movable.Move(movementVector, 1);
+        }
+
+        protected override void OnExit()
+        {
+            _characterAnimator.UpdateState(CharacterAnimatorParams.HorizontalSpeed, 0);
+            _movable.ForceStop();
         }
     }
 }

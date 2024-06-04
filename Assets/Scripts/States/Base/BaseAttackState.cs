@@ -9,7 +9,7 @@ namespace States.Base
     public abstract class BaseAttackState : State
     {
         protected IAttacker _attacker;
-        protected Animator _animator;
+        protected CharacterAnimator _animator;
         
         protected AnimationSettings _animationSettings;
         
@@ -24,7 +24,7 @@ namespace States.Base
         
         protected virtual int AttackTriggerId => CharacterAnimatorParams.AttackTrigger;
         
-        public BaseAttackState Init(IAttacker attacker, Animator characterAnimator)
+        public BaseAttackState Init(IAttacker attacker, CharacterAnimator characterAnimator)
         {
             _animator = characterAnimator;
             _attacker = attacker;
@@ -38,6 +38,7 @@ namespace States.Base
         public BaseAttackState SetComboState(BaseAttackState attackState)
         {
             _comboState = attackState;
+            Debug.Log($"Set combo state {attackState.GetType()}");
             return this;
         }
         
@@ -54,7 +55,12 @@ namespace States.Base
             _damageableTeam = damageableTeam;
             return this;
         }
-        
+
+        protected override void OnStateReset()
+        {
+            _shouldCombo = false;
+        }
+
         protected override void OnEnter()
         {
             if (!IsInitialized)
@@ -87,7 +93,7 @@ namespace States.Base
                 return;
             }
                 
-            _stateMachine.SetDefaultState();
+            ToTransitionState();
         }
 
         protected abstract void Attack();
@@ -95,11 +101,13 @@ namespace States.Base
         protected override void OnExit()
         {
             _attacker.OnAttack -= OnAttack;
+            
+            _animator.ResetTrigger(AttackTriggerId);
         }
 
         private void OnAttack()
         {
-            _attackPressedTimer = 2;
+            _attackPressedTimer = 1;
         }
     }
 }

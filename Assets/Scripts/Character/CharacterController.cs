@@ -25,7 +25,7 @@ namespace Core
         
         public void Move(Vector2 direction, float lerp)
         {
-	        float targetSpeed = direction.x * settings._maxSpeed;
+	        var targetSpeed = direction.x * settings._maxSpeed;
 	        targetSpeed = Mathf.Lerp(rigidbody2D.velocity.x, targetSpeed, lerp);
 
 	        float accelRate;
@@ -36,9 +36,9 @@ namespace Core
 			        ? settings._runAccelerateAmount * settings._accelerateInAir
 			        : settings._runDeccelerateAmount * settings._deccelerateInAir;
 
-	        float speedDif = targetSpeed - rigidbody2D.velocity.x;
+	        var speedDif = targetSpeed - rigidbody2D.velocity.x;
 
-	        float movement = speedDif * accelRate;
+	        var movement = speedDif * accelRate;
 
 	        rigidbody2D.AddForce(movement * Vector2.right, ForceMode2D.Force);
         }
@@ -46,6 +46,11 @@ namespace Core
         public void Rotate(Quaternion targetRotation)
         {
 	        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, settings._rotatingSpeed * Time.deltaTime);
+        }
+
+        public void ForceStop()
+        {
+	        rigidbody2D.velocity = Vector2.zero;
         }
     }
 

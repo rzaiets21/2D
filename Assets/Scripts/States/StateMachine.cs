@@ -32,14 +32,14 @@ namespace States
             CurrentState?.Update();
         }
 
-        private void SetState(State newState)
+        private void SetState(State newState, bool checkTransition = true)
         {
-            if(newState == CurrentState)
-                return;
-            
             _nextState = null;
             
             CurrentState?.Exit();
+            
+            if(checkTransition && !newState.TryEnter(this))
+                return;
             
             CurrentState = newState;
             CurrentState.Enter(this);
