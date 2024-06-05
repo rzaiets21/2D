@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Attack;
 using AttackAnimations;
+using Equipment;
 using Interfaces;
 using States;
 using States.Base;
@@ -9,11 +10,13 @@ using UnityEngine;
 
 namespace Core
 {
-    public class Player : MonoBehaviour, ICharacterControl, IAttacker
+    public class Player : MonoBehaviour, ICharacterControl
     {
         [SerializeField] private ComboSettings comboSettings;
         [SerializeField] private StateMachine characterStateMachine;
         
+        [SerializeField] private PlayerEquipment playerEquipment;
+        [SerializeField] private PlayerAttacker playerAttacker;
         [SerializeField] private CharacterInput characterInput;
         [SerializeField] private CharacterController characterController;
         [SerializeField] private CharacterAnimator characterAnimator;
@@ -27,14 +30,14 @@ namespace Core
 
         private List<State> _attackStates;
         
-        public event Action OnAttack;
-        
         private void Awake()
         {
             characterStateMachine.InitDefaultState(IdleState);
 
+            playerAttacker.Init(characterInput, playerEquipment);
+            
             MovementState = new MovementState().Init(this, characterController, characterAnimator);
-            FightingState = new FightingState().Init(this, characterController, characterAnimator);
+            FightingState = new FightingState().Init(this, characterController, characterAnimator, playerEquipment);
             BaseAttackState comboAttack = null;
             _attackStates = new List<State>();
             for (int i = comboSettings.AttacksCount - 1; i >= 0; i--)
@@ -42,7 +45,7 @@ namespace Core
                 AttackSettings attackSettings = comboSettings[i];
                 AnimationSettings animationSettings = attackSettings.AnimationSettings;
                 var attackState = new BaseMeleeAttack();
-                attackState.Init(this, characterAnimator)
+                attackState.Init(playerAttacker, characterAnimator)
                     .SetAnimationSettings(animationSettings)
                     .AddTransition(StateEvent.Exit, FightingState);
 
@@ -54,23 +57,26 @@ namespace Core
             }
         }
 
+        private void OnEnable()
+        {
+            playerAttacker.OnAttack += OnClickAttack;
+        }
+
+        private void OnDisable()
+        {
+            playerAttacker.OnAttack -= OnClickAttack;
+        }
+
         private void Start()
         {
             characterStateMachine.SetDefaultState();
         }
 
-        private void OnEnable()
-        {
-            characterInput.onClickAttack += OnClickAttack;
-        }
-
-        private void OnDisable()
-        {
-            characterInput.onClickAttack -= OnClickAttack;
-        }
-
         private void Update()
         {
+            if(Input.GetKeyDown(KeyCode.P))
+                characterStateMachine.SetNextState(FightingState);
+            
             if (MovementVector.magnitude > 0 && characterStateMachine.CurrentState.GetType() == typeof(IdleState))
             {
                 characterStateMachine.SetNextState(MovementState);
@@ -83,7 +89,6 @@ namespace Core
             {
                 characterStateMachine.SetNextState(AttackState);
             }
-            OnAttack?.Invoke();
         }
     }
 }

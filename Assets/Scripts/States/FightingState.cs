@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using Equipment;
+using Interfaces;
 
 namespace States
 {
     public class FightingState : MovementState
     {
         private float _exitTime = 3.5f;
+        private PlayerEquipment _playerEquipment;
+
+        public MovementState Init(ICharacterControl characterControl, IMovable movable, CharacterAnimator characterAnimator, PlayerEquipment playerEquipment)
+        {
+            _playerEquipment = playerEquipment;
+            return base.Init(characterControl, movable, characterAnimator);
+        }
 
         protected override void OnEnter()
         {

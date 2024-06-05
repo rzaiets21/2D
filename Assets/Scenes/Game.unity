@@ -1640,6 +1640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MagicSword_Iron
       objectReference: {fileID: 0}
+    - target: {fileID: 1014989259798498, guid: 8fc40ebf5a41b30428929f5ba3697759, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4420664804571618, guid: 8fc40ebf5a41b30428929f5ba3697759, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7083201
@@ -2154,6 +2158,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1379255413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1014989259798498, guid: 8fc40ebf5a41b30428929f5ba3697759, type: 3}
+  m_PrefabInstance: {fileID: 2054970536}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1384849698
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,7 +2423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1466871209
 Transform:
   m_ObjectHideFlags: 0
@@ -2683,6 +2692,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1596672045 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1014989259798498, guid: 8fc40ebf5a41b30428929f5ba3697759, type: 3}
+  m_PrefabInstance: {fileID: 931039148}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1660105576
 GameObject:
   m_ObjectHideFlags: 0
@@ -3041,6 +3055,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboSettings: {fileID: 11400000, guid: 09cde22dc4f08cf4b9123e9387027abc, type: 2}
   characterStateMachine: {fileID: 5866666021682038949}
+  playerEquipment: {fileID: 5866666021682038950}
+  playerAttacker: {fileID: 5866666021682038951}
   characterInput: {fileID: 1859455466}
   characterController: {fileID: 1871755189}
   characterAnimator: {fileID: 5866666021682038948}
@@ -3637,6 +3653,8 @@ GameObject:
   - component: {fileID: 1871755193}
   - component: {fileID: 5866666021682038948}
   - component: {fileID: 5866666021682038949}
+  - component: {fileID: 5866666021682038950}
+  - component: {fileID: 5866666021682038951}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5199,6 +5217,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b69170cf436af73418fa64f4556b0281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5866666021682038950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149389183075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74d61532a0b4ad2a05798e0382719bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unequippedTwoHanded: {fileID: 1379255413}
+  equippedTwoHanded: {fileID: 1596672045}
+--- !u!114 &5866666021682038951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149389183075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4179d24029943ef8a679b886eaff508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5901452235439505498

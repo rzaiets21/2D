@@ -59,6 +59,7 @@ namespace States.Base
         protected override void OnStateReset()
         {
             _shouldCombo = false;
+            _attackPressedTimer = 0;
         }
 
         protected override void OnEnter()
@@ -107,7 +108,7 @@ namespace States.Base
 
         private void OnAttack()
         {
-            _attackPressedTimer = 1;
+            _attackPressedTimer = 0.15f;
         }
     }
 }
